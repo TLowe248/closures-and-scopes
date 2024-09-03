@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+		console.group("Exercise 1")
+
+		function outerFunction() {
+			let outerVar = "I'm outside!";
+
+			function innerFunction() {
+				let innerVar = "I'm inside!";
+				console.log(outerVar); // Can we access outerVar?
+				console.log(innerVar); // Can we access innerVar?
+			}
+
+			innerFunction();
+		}
+
+		outerFunction();
+
+		console.log("Scopes are bits of the code where a variable can be accessed. In this case, outerVar can be accessed because it's in outerFunction()'s scope (which contains innerFunction(), giving it access to it), while innerVar can be accessed because it's inside the function using it, though it becomes inaccessible outside innerFunction, due to being contained to that scope.");
+
+		console.groupEnd();
+
+		console.group("Exercise 2");
+
+		function mainFunction() {
+			hoistedFunction();
+			function hoistedFunction() {
+				console.log("I'm hoisted!");
+			}
+		}
+
+		mainFunction();
+		console.log("Hoisting is when a function is called before it's defined. It should generally be avoided, to make code more readable and easy to maintain (I think).");
+
+		console.groupEnd();
+
+		console.group("Exercise 3");
+
+		function closureFunction() {
+			let closureVar = "I, Zabrok the Unterminated, shall never die!";
+			function innerFunction() {
+				console.log("closureVar is currently " + closureVar);
+			}
+			return innerFunction;
+		}
+
+		closureFunction()();
+
+		console.log("Zabrok the Unterminated is stored in innerFunction(), due to JavaScript forming closures around it, and then returning it via closureFunction(). Even though it's local to closureFunction(), it can be accessed from innerFunction() because of this.");
+
+		console.groupEnd();
+
+		console.group("Exercise 4")
+		let globalVar = "I'm global!";
+
+		function modifyGlobal() {
+			globalVar = "Still global baybee";
+		}
+
+		function localScopeTest() {
+			let globalVar = "I'm local!";
+		}
+
+		// Call both functions here
+
+		console.log("globalVar is currently " + globalVar);
+		modifyGlobal();
+		console.log("globalVar is currently " + globalVar);
+		localScopeTest();
+		console.log("globalVar is currently " + globalVar);
+
+		console.log("globalVar is in the global scope, and can be accessed by any function in the project. modifyGlobal() altered it, but localScopeTest() created a new variable of the same name within its scope. This is overshadowing the global variable though, so do try to avoid it.");
+
+		console.groupEnd();
+
+		console.group("Exercise 5");
+
+		function functionFactory(param) {
+			function productFunction() {
+				console.log("You plugged in a " + param);
+			}
+
+			return productFunction;
+		}
+
+		functionFactory("screwdriver")();
+
+		console.log("Closures can be used to create functions that can create other functions with certain parameters attached. How delightfully functional!");
+
+		console.groupEnd();
+
+		console.group("Exercise 6");
+
+		function hoistingTest() {
+			//console.log(hoisted);
+
+			let hoisted = "I'm hoisted!";
+		}
+
+		hoistingTest();
+
+		console.log("Variable hoisting isn't really a thing. The variables are hoisted, but they aren't initialized, so don't go hoisting any vars, will ya? And, uh, looks like I was 'initially' wrong, haha.");
+
+		console.groupEnd();
+
+		console.group("Exercise 7");
+
+		function setupCounter() {
+			let count = 0;
+
+			return function () {
+				count++;
+				console.log("Count: " + count);
+			}
+		}
+
+		setupCounter()();
+
+		console.log("This is probably closer to a genuine use case for closures.")
+
+		console.groupEnd();
+
+		console.group("Exercise 8");
+
+		function setupCounter2() {
+			let count = 0;
+			return function () {
+				count++;
+				if (count >= 10) {
+					count = 0;
+				}
+				console.log("Count: " + count);
+			}
+		}
+
+		let increment = setupCounter2();
+
+		increment();
+		increment();
+		increment();
+		increment();
+		increment();
+		increment();
+		increment();
+		increment();
+		increment();
+		increment();
+
+		console.log("Count cannot be hoisted. increment() maintains the counter through its runs, so that's interesting.")
+
+		console.groupEnd();
+
+		console.group("Exercise 9");
+
+		let globalVar2 = "I'm global!";
+		function modifyGlobal2() {
+			function alteration() {
+				globalVar2 = "Still global baybee";
+			}
+
+			return alteration;
+		}
+		function localHoistingTest() {
+			// hoisted2 = "I'm hoisted!";
+			// console.log("Hoisted: " + hoisted2)
+			let hoisted2;
+		}
+
+		modifyGlobal2();
+		localHoistingTest();
+		console.log("globalVar2 is currently " + globalVar2);
+
+		console.log("Yeah hoisting doesnt work man idk but yeah this ones just review")
+
+		console.groupEnd();
+	</script>
+</body>
+
+</html>
